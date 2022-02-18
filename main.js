@@ -1,3 +1,4 @@
+const giraffeLogo = document.querySelector('.logo');
 const animalList = getAnimalList();
 const guessList = document.querySelectorAll('.guess');
 const scoreList = document.querySelectorAll('.score');
@@ -7,8 +8,9 @@ const scoreShade = ['score', 'score10', 'score30', 'score50', 'score70', 'score9
 const target = getTarget();
 const matchScore = getScore(target);
 const modalAnimals = document.querySelector('.modal__animals');
+const modalAlert = document.querySelector('.modal__alert');
 
-
+let message = '';
 let guessNumber = 0;
 let guessAnimal = {};
 let guess = [];
@@ -118,4 +120,11 @@ function getAnimalList() {
 	return animals;
 }
 
+function displayTarget() {
+	message = target.name;
+	modalAlert.textContent = message;
+	modalAlert.classList.add('modal__notice');
+}
+
 keyboardKeys.forEach(key => key.addEventListener('click', getGuess));
+giraffeLogo.addEventListener('click', displayTarget);
