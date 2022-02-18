@@ -101,6 +101,7 @@ function showShortList() {
 	});
 	modalAnimals.classList.add('modal__show')
 	modalAnimals.innerHTML = animalShortListElement;
+	modalAnimals.addEventListener('click', () => {}, false);
 	modalAnimal = document.querySelectorAll('.modal__animal');
 	modalAnimal.forEach(m => addEventListener('click', selectFromShortList));
 }
