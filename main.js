@@ -89,7 +89,7 @@ function selectFromShortList(e) {
 }
 
 function getShortList() {
-	shortList = animalList.filter(a => a.includes(currentGuess)).slice(0, 7);
+	shortList = animalList.filter(a => a.includes(currentGuess)).slice(0, 9);
 	return shortList;
 }
 
@@ -124,6 +124,7 @@ function displayTarget() {
 	message = target.name;
 	modalAlert.textContent = message;
 	modalAlert.classList.add('modal__notice');
+	setTimeout(() => modalAlert.classList.remove('modal__notice'), 4000);
 }
 
 keyboardKeys.forEach(key => key.addEventListener('click', getGuess));
