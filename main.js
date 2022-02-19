@@ -3,7 +3,7 @@ const animalList = getAnimalList();
 const guessList = document.querySelectorAll('.guess');
 const scoreList = document.querySelectorAll('.score');
 const keyboardKeys = document.querySelectorAll('.keyboard-key');
-const scoreShade = ['score', 'score10', 'score30', 'score50', 'score70', 'score90', 'score100'];
+const scoreShade = ['score', 'score10', 'score20', 'score30', 'score50', 'score70', 'score90', 'score100'];
 
 let score = {taxonomy: 0, environment: 0, other: 0};
 const target = getTarget();

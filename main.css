@@ -162,6 +162,10 @@ h2 {
 	background: radial-gradient(var(--yellow) 10%, var(--dark));
 }
 
+.score20 {
+	background: radial-gradient(var(--yellow) 20%, var(--dark));
+}
+
 .score30 {
 	background: radial-gradient(var(--yellow) 30%, var(--dark));
 }
