@@ -85,6 +85,21 @@ h1 {
 	letter-spacing: 4px;
 }
 
+h2 {
+	font-size: 0.5rem;
+}
+
+.heading {
+	display: grid;
+	grid-gap: 3px;
+	text-align: center;
+	text-overflow: clip;
+}
+
+.heading__score {
+	grid-template-columns: repeat(3, 1fr);
+}
+
 .container {
 	display: flex;
 	flex-direction: column;
@@ -120,36 +135,46 @@ h1 {
 	background: var(--dark);
 }
 
+.correct {
+	background: var(--green);
+}
+
 .scorelist {
 	list-style: none;
 }
 
 .score {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-gap: 3px;
 	margin-bottom: 3px;
 	width: 100%;
 	height: 2.5em;
+}
+
+.taxonomy, .environment, .other {
 	background: var(--back);
 	border: solid 1px var(--dark);
 	border-radius: 0.4em;
 }
 
 .score10 {
-	background: linear-gradient(90deg, var(--yellow) 10%, var(--dark));
+	background: radial-gradient(var(--yellow) 10%, var(--dark));
 }
 
 .score30 {
-	background: linear-gradient(90deg, var(--yellow) 30%, var(--dark));
+	background: radial-gradient(var(--yellow) 30%, var(--dark));
 }
 
 .score50 {
-	background: linear-gradient(90deg, var(--yellow) 50%, var(--dark));
+	background: radial-gradient(var(--yellow) 50%, var(--dark));
 }
 
 .score70 {
-	background: linear-gradient(90deg, var(--green) 30%, var(--yellow) 70%, var(--dark));
+	background: radial-gradient(var(--green) 30%, var(--yellow) 70%, var(--dark));
 }
 .score90 {
-	background: linear-gradient(90deg, var(--green) 50%, var(--yellow) 90%, var(--dark));
+	background: radial-gradient(var(--green) 50%, var(--yellow) 90%, var(--dark));
 }
 .score100 {
 	background: var(--green);

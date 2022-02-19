@@ -5,6 +5,7 @@ const scoreList = document.querySelectorAll('.score');
 const keyboardKeys = document.querySelectorAll('.keyboard-key');
 const scoreShade = ['score', 'score10', 'score30', 'score50', 'score70', 'score90', 'score100'];
 
+let score = {taxonomy: 0, environment: 0, other: 0};
 const target = getTarget();
 const matchScore = getScore(target);
 const modalAnimals = document.querySelector('.modal__animals');
@@ -16,6 +17,7 @@ let guessAnimal = {};
 let guess = [];
 let currentGuess = '';
 let animalShortList = [];
+
 
 
 // console.log(target.name, matchScore);
@@ -53,7 +55,7 @@ function getGuess(e) {
 
 
 function scoreGuess(g) {
-	score = 0;
+	score = {taxonomy: 0, environment: 0, other: 0};
 	animal.forEach(a => {
 		if(a.name == g) {
 			guessAnimal = a;
@@ -61,22 +63,30 @@ function scoreGuess(g) {
 	})
 	guessScore = getScore(guessAnimal);
 	guessList[guessNumber].classList.add('played');
-	shade = Math.floor(score * scoreShade.length / matchScore) - 1;
-	scoreList[guessNumber].classList.add(`${scoreShade[shade]}`);
+	if(guessAnimal == target) {guessList[guessNumber].classList.add('correct')};
+	shade = Math.floor(score.taxonomy * scoreShade.length / matchScore.taxonomy) - 1;
+	scoreList[guessNumber].children[0].classList.add(`${scoreShade[shade]}`);
+	shade = Math.floor(score.environment * scoreShade.length / matchScore.environment) - 1;
+	scoreList[guessNumber].children[1].classList.add(`${scoreShade[shade]}`);
+	shade = Math.floor(score.other * scoreShade.length / matchScore.other) - 1;
+	scoreList[guessNumber].children[2].classList.add(`${scoreShade[shade]}`);
 }
 
 function getScore(guessAnimal) {
-	score = (guessAnimal.taxonomy.kingdom == target.taxonomy.kingdom)? 1: 0;
-	score += (guessAnimal.taxonomy.phylum == target.taxonomy.phylum)? 2: 0;
-	score += (guessAnimal.taxonomy.class == target.taxonomy.class)? 5: 0;
-	score += (guessAnimal.taxonomy.order == target.taxonomy.order)? 7: 0;
-	score += (guessAnimal.taxonomy.family == target.taxonomy.family)? 7: 0;
-	score += (guessAnimal.diet == target.diet)? 2: 0;
-	guessAnimal.location.forEach(l => score+= (target.location.includes(l))? 1: 0);
-	guessAnimal.habitat.forEach(h => score+= (target.habitat.includes(h))? 2: 0);
-	score += (guessAnimal.size.weight[0] >= target.size.weight[0]/2 && guessAnimal.size.weight[1] <= target.size.weight[1]*2)? 2: 0;
-	score += (guessAnimal.size.length[0] >= target.size.length[0]/2 && guessAnimal.size.length[1] <= target.size.length[1]*2)? 2: 0;
-	score += (guessAnimal.lifespan[0] >= target.lifespan[0]/2 && guessAnimal.lifespan[1] <= target.lifespan[1]*2)? 2: 0;
+	score.taxonomy += (guessAnimal.taxonomy.kingdom == target.taxonomy.kingdom)? 1: 0;
+	score.taxonomy += (guessAnimal.taxonomy.phylum == target.taxonomy.phylum)? 2: 0;
+	score.taxonomy += (guessAnimal.taxonomy.class == target.taxonomy.class)? 5: 0;
+	score.taxonomy += (guessAnimal.taxonomy.order == target.taxonomy.order)? 7: 0;
+	score.taxonomy += (guessAnimal.taxonomy.family == target.taxonomy.family)? 7: 0;
+	score.other += (guessAnimal.diet == target.diet)? 2: 0;
+	guessAnimal.location.forEach(l => score.environment += (target.location.includes(l))? 1: 0);
+	guessAnimal.habitat.forEach(h => score.environment += (target.habitat.includes(h))? 2: 0);
+	score.other += (guessAnimal.size.weight[0] >= target.size.weight[0]/5 && guessAnimal.size.weight[1] <= target.size.weight[1]*5)? 2: 0;
+	score.other += (guessAnimal.size.weight[0] >= target.size.weight[0]/2 && guessAnimal.size.weight[1] <= target.size.weight[1]*2)? 2: 0;
+	score.other += (guessAnimal.size.weight[0] >= target.size.weight[0]/1 && guessAnimal.size.weight[1] <= target.size.weight[1]*1)? 2: 0;
+	score.other += (guessAnimal.size.length[0] >= target.size.length[0]/5 && guessAnimal.size.length[1] <= target.size.length[1]*5)? 2: 0;
+	score.other += (guessAnimal.size.length[0] >= target.size.length[0]/2 && guessAnimal.size.length[1] <= target.size.length[1]*2)? 2: 0;
+	score.other += (guessAnimal.lifespan[0] >= target.lifespan[0]/2 && guessAnimal.lifespan[1] <= target.lifespan[1]*2)? 2: 0;
 	return score;
 }
 
