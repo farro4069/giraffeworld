@@ -63,7 +63,7 @@ function scoreGuess(g) {
 	})
 	guessScore = getScore(guessAnimal);
 	guessList[guessNumber].classList.add('played');
-	if(guessAnimal == target) {guessList[guessNumber].classList.add('correct')};
+	if(guessAnimal.name == target.name) {guessList[guessNumber].classList.add('correct')};
 	shade = Math.floor(score.taxonomy * scoreShade.length / matchScore.taxonomy) - 1;
 	scoreList[guessNumber].children[0].classList.add(`${scoreShade[shade]}`);
 	shade = Math.floor(score.environment * scoreShade.length / matchScore.environment) - 1;
