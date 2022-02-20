@@ -76,8 +76,8 @@ function getScore(guessAnimal) {
 	score.taxonomy += (guessAnimal.taxonomy.kingdom == target.taxonomy.kingdom)? 1: 0;
 	score.taxonomy += (guessAnimal.taxonomy.phylum == target.taxonomy.phylum)? 2: 0;
 	score.taxonomy += (guessAnimal.taxonomy.class == target.taxonomy.class)? 5: 0;
-	score.taxonomy += (guessAnimal.taxonomy.order == target.taxonomy.order)? 7: 0;
-	score.taxonomy += (guessAnimal.taxonomy.family == target.taxonomy.family)? 7: 0;
+	score.taxonomy += (guessAnimal.taxonomy.order == target.taxonomy.order)? 5: 0;
+	score.taxonomy += (guessAnimal.taxonomy.family == target.taxonomy.family)? 2: 0;
 	score.other += (guessAnimal.diet == target.diet)? 2: 0;
 	guessAnimal.location.forEach(l => score.environment += (target.location.includes(l))? 1: 0);
 	guessAnimal.habitat.forEach(h => score.environment += (target.habitat.includes(h))? 2: 0);
@@ -91,7 +91,7 @@ function getScore(guessAnimal) {
 }
 
 function selectFromShortList(e) {
-	if (e.target.className =='modal__animal') {
+	if (e.target.className == 'modal__animal') {
 		currentGuess = e.target.textContent;
 		guessList[guessNumber].textContent = currentGuess;
 		modalAnimals.classList.remove('modal__show');
@@ -117,8 +117,8 @@ function showShortList() {
 }
 
 function getTarget() {
-	const targetNumber = Math.floor(Math.random()*animal.length);
-	const target = animal[targetNumber];
+	const targetNumber = Math.floor(Math.random()*animalSelection.length);
+	const target = animalSelection[targetNumber];
 	return target;
 }
 
