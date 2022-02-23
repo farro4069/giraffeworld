@@ -201,3 +201,5 @@ function displaySearch(searchTopics) {
 keyboardKeys.forEach(key => key.addEventListener('click', getGuess));
 giraffeLogo.addEventListener('click', displayTarget);
 searchButton.addEventListener('click', searchClass);
+modalSearchList.addEventListener('click', () => {}, false);
+
