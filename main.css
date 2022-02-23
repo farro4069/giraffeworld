@@ -242,7 +242,8 @@ h2 {
 	font-size: 1.6em;
 }
 
-.modal__animals {
+.modal__animals,
+.modal__search-list {
 	position: fixed;
 	top: 10vh;
 	left: 50vw;
@@ -257,6 +258,19 @@ h2 {
 }
 
 .modal__animal {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 3px;
+	padding: 0.4em;
+	color: var(--back);
+	text-transform: capitalize;
+	background: var(--grey);
+	box-shadow: 2px 2px 4px 2px var(--back);
+	cursor: pointer;
+}
+
+.modal__search {
 	display: flex;
 	justify-content: center;
 	align-items: center;

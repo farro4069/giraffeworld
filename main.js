@@ -1,4 +1,5 @@
 const giraffeLogo = document.querySelector('.logo');
+const searchButton = document.querySelector('.btn-info');
 const animalList = getAnimalList();
 const guessList = document.querySelectorAll('.guess');
 const scoreList = document.querySelectorAll('.score');
@@ -9,6 +10,7 @@ let score = {taxonomy: 0, environment: 0, other: 0};
 const target = getTarget();
 const matchScore = getScore(target);
 const modalAnimals = document.querySelector('.modal__animals');
+const modalSearchList = document.querySelector('.modal__search-list');
 const modalAlert = document.querySelector('.modal__alert');
 
 let message = '';
@@ -17,6 +19,9 @@ let guessAnimal = {};
 let guess = [];
 let currentGuess = '';
 let animalShortList = [];
+let searchTopics = [];
+let searchTopicElement = '';
+
 
 
 
@@ -75,9 +80,9 @@ function scoreGuess(g) {
 function getScore(guessAnimal) {
 	score.taxonomy += (guessAnimal.taxonomy.kingdom == target.taxonomy.kingdom)? 1: 0;
 	score.taxonomy += (guessAnimal.taxonomy.phylum == target.taxonomy.phylum)? 2: 0;
-	score.taxonomy += (guessAnimal.taxonomy.class == target.taxonomy.class)? 5: 0;
-	score.taxonomy += (guessAnimal.taxonomy.order == target.taxonomy.order)? 5: 0;
-	score.taxonomy += (guessAnimal.taxonomy.family == target.taxonomy.family)? 2: 0;
+	score.taxonomy += (guessAnimal.taxonomy.class == target.taxonomy.class)? 3: 0;
+	score.taxonomy += (guessAnimal.taxonomy.order == target.taxonomy.order)? 1: 0;
+	score.taxonomy += (guessAnimal.taxonomy.family == target.taxonomy.family)? 1: 0;
 	score.other += (guessAnimal.diet == target.diet)? 2: 0;
 	guessAnimal.location.forEach(l => score.environment += (target.location.includes(l))? 1: 0);
 	guessAnimal.habitat.forEach(h => score.environment += (target.habitat.includes(h))? 2: 0);
@@ -95,6 +100,7 @@ function selectFromShortList(e) {
 		currentGuess = e.target.textContent;
 		guessList[guessNumber].textContent = currentGuess;
 		modalAnimals.classList.remove('modal__show');
+		modalSearchList.classList.remove('modal__show')
 	}
 }
 
@@ -138,5 +144,60 @@ function displayTarget() {
 	setTimeout(() => modalAlert.classList.remove('modal__notice'), 4000);
 }
 
+function selectSearchAnimal(e) {
+	modalSearch.forEach(m => removeEventListener('click', selectSearchAnimal));
+	// e.stopPropagation();
+	orderList = animal.filter(a => a.taxonomy.family == e.target.textContent);
+	searchTopicsSet = new Set(orderList.map(a => a.name));
+	searchTopics = Array.from(searchTopicsSet);
+	displaySearch(searchTopics);
+	modalSearch = document.querySelectorAll('.modal__search');
+	modalSearch.forEach(m => m.classList.replace('modal__search', 'modal__animal'));
+	modalSearch.forEach(m => addEventListener('click', selectFromShortList));
+}
+
+function selectSearchFamily(e) {
+	modalSearch.forEach(m => removeEventListener('click', selectSearchFamily));
+	// e.stopPropagation();
+	orderList = animal.filter(a => a.taxonomy.order == e.target.textContent);
+	searchTopicsSet = new Set(orderList.map(a => a.taxonomy.family));
+	searchTopics = Array.from(searchTopicsSet);
+	displaySearch(searchTopics);
+	modalSearch = document.querySelectorAll('.modal__search');
+	modalSearch.forEach(m => addEventListener('click', selectSearchAnimal));
+}
+
+function selectSearchOrder(e) {
+	modalSearch.forEach(m => removeEventListener('click', selectSearchOrder));
+	// e.stopPropagation();
+	let orderList = animal.filter(a => a.taxonomy.class == e.target.textContent);
+	searchTopicsSet = new Set(orderList.map(a => a.taxonomy.order));
+	searchTopics = Array.from(searchTopicsSet);
+	displaySearch(searchTopics);
+	modalSearch = document.querySelectorAll('.modal__search');
+	modalSearch.forEach(m => addEventListener('click', selectSearchFamily));
+}
+
+function searchClass(e) {
+	e.stopPropagation();
+	searchTopicsSet = new Set(animal.map(a => a.taxonomy.class));
+	searchTopics = Array.from(searchTopicsSet);
+	console.log(searchTopics);
+	displaySearch(searchTopics);
+	modalSearch = document.querySelectorAll('.modal__search');
+	modalSearch.forEach(m => addEventListener('click', selectSearchOrder));
+}
+
+function displaySearch(searchTopics) {
+	searchTopicElement = '';
+	console.log('display', searchTopics);
+	searchTopics.sort().forEach(a => {
+		searchTopicElement += `<li class='modal__search'>${a}</li>`
+	});
+	modalSearchList.innerHTML = searchTopicElement;
+	modalSearchList.classList.add('modal__show')
+}
+
 keyboardKeys.forEach(key => key.addEventListener('click', getGuess));
 giraffeLogo.addEventListener('click', displayTarget);
+searchButton.addEventListener('click', searchClass);
