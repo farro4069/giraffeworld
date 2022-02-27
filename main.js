@@ -4,6 +4,7 @@ const animalList = getAnimalList();
 const guessList = document.querySelectorAll('.guess');
 const scoreList = document.querySelectorAll('.score');
 const keyboardKeys = document.querySelectorAll('.keyboard-key');
+const btnClose = document.querySelector('.btn-close');
 const scoreShade = ['score', 'score10', 'score20', 'score30', 'score50', 'score70', 'score90', 'score100'];
 
 let score = {taxonomy: 0, environment: 0, other: 0};
@@ -12,6 +13,8 @@ const matchScore = getScore(target);
 const modalAnimals = document.querySelector('.modal__animals');
 const modalSearchList = document.querySelector('.modal__search-list');
 const modalAlert = document.querySelector('.modal__alert');
+const modalTraits = document.querySelector('.modal__animal-traits');
+const animalTraits = document.querySelector('.animal-traits');
 
 let message = '';
 let guessNumber = 0;
@@ -68,6 +71,7 @@ function scoreGuess(g) {
 	})
 	guessScore = getScore(guessAnimal);
 	guessList[guessNumber].classList.add('played');
+	guessList[guessNumber].addEventListener('click', displayTraits);
 	if(guessAnimal.name == target.name) {guessList[guessNumber].classList.add('correct')};
 	shade = Math.floor(score.taxonomy * scoreShade.length / matchScore.taxonomy) - 1;
 	scoreList[guessNumber].children[0].classList.add(`${scoreShade[shade]}`);
@@ -146,7 +150,6 @@ function displayTarget() {
 
 function selectSearchAnimal(e) {
 	modalSearch.forEach(m => removeEventListener('click', selectSearchAnimal));
-	// e.stopPropagation();
 	orderList = animal.filter(a => a.taxonomy.family == e.target.textContent);
 	searchTopicsSet = new Set(orderList.map(a => a.name));
 	searchTopics = Array.from(searchTopicsSet);
@@ -158,7 +161,6 @@ function selectSearchAnimal(e) {
 
 function selectSearchFamily(e) {
 	modalSearch.forEach(m => removeEventListener('click', selectSearchFamily));
-	// e.stopPropagation();
 	orderList = animal.filter(a => a.taxonomy.order == e.target.textContent);
 	searchTopicsSet = new Set(orderList.map(a => a.taxonomy.family));
 	searchTopics = Array.from(searchTopicsSet);
@@ -169,7 +171,6 @@ function selectSearchFamily(e) {
 
 function selectSearchOrder(e) {
 	modalSearch.forEach(m => removeEventListener('click', selectSearchOrder));
-	// e.stopPropagation();
 	let orderList = animal.filter(a => a.taxonomy.class == e.target.textContent);
 	searchTopicsSet = new Set(orderList.map(a => a.taxonomy.order));
 	searchTopics = Array.from(searchTopicsSet);
@@ -182,7 +183,6 @@ function searchClass(e) {
 	e.stopPropagation();
 	searchTopicsSet = new Set(animal.map(a => a.taxonomy.class));
 	searchTopics = Array.from(searchTopicsSet);
-	console.log(searchTopics);
 	displaySearch(searchTopics);
 	modalSearch = document.querySelectorAll('.modal__search');
 	modalSearch.forEach(m => addEventListener('click', selectSearchOrder));
@@ -190,7 +190,6 @@ function searchClass(e) {
 
 function displaySearch(searchTopics) {
 	searchTopicElement = '';
-	console.log('display', searchTopics);
 	searchTopics.sort().forEach(a => {
 		searchTopicElement += `<li class='modal__search'>${a}</li>`
 	});
@@ -198,8 +197,29 @@ function displaySearch(searchTopics) {
 	modalSearchList.classList.add('modal__show')
 }
 
+function displayTraits(e) {
+	console.log(e.target.textContent);
+	idx = animal.findIndex(a => a.name == e.target.textContent);
+
+	const modalTraitsElement = `
+		<li><h2>Name</h2><p>${animal[idx].name}</p></li>
+		<li><h2>Class</h2><p>${animal[idx].taxonomy.class}</p></li>
+		<li><h2>Order</h2><p>${animal[idx].taxonomy.order}</p></li>
+		<li><h2>Family</h2><p>${animal[idx].taxonomy.family}</p></li>
+	`;
+	animalTraits.innerHTML = modalTraitsElement;
+	modalTraits.classList.add('modal__notice');
+
+}
+
+function closeTraits() {
+	modalTraits.classList.remove('modal__notice');
+}
+
+
 keyboardKeys.forEach(key => key.addEventListener('click', getGuess));
 giraffeLogo.addEventListener('click', displayTarget);
 searchButton.addEventListener('click', searchClass);
 modalSearchList.addEventListener('click', () => {}, false);
+btnClose.addEventListener('click', closeTraits);
 
