@@ -11,7 +11,7 @@
 	--blue: #2929d7;
 	--pink: #ea9c9c;
 	--purple: #d140dd;
-	--light: #7798fd;
+	--light: #2d90e8;
 }
 
 *, *::before, *::after, a {
@@ -351,8 +351,6 @@ h2 {
 	padding: 0.2em 2em;
 }
 
-
-
 .modal__notice {
-	opacity: 0.9;
+	opacity: 0.95;
 }

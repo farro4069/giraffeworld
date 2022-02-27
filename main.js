@@ -1,6 +1,11 @@
+let animal = [];
+let animalNames = [];
+
+getAllAnimals();
+
+
 const giraffeLogo = document.querySelector('.logo');
 const searchButton = document.querySelector('.btn-info');
-const animalList = getAnimalList();
 const guessList = document.querySelectorAll('.guess');
 const scoreList = document.querySelectorAll('.score');
 const keyboardKeys = document.querySelectorAll('.keyboard-key');
@@ -15,6 +20,8 @@ const modalSearchList = document.querySelector('.modal__search-list');
 const modalAlert = document.querySelector('.modal__alert');
 const modalTraits = document.querySelector('.modal__animal-traits');
 const animalTraits = document.querySelector('.animal-traits');
+
+
 
 let message = '';
 let guessNumber = 0;
@@ -33,7 +40,7 @@ let searchTopicElement = '';
 
 
 function checkGuess(g) {
-	return animalList.includes(g)? true: false;
+	return animalNames.includes(g)? true: false;
 }
 
 function getGuess(e) {
@@ -109,7 +116,8 @@ function selectFromShortList(e) {
 }
 
 function getShortList() {
-	shortList = animalList.filter(a => a.includes(currentGuess)).slice(0, 9);
+	animalNames = getAnimalNames();
+	shortList = animalNames.filter(a => a.includes(currentGuess)).slice(0, 9);
 	return shortList;
 }
 
@@ -132,13 +140,13 @@ function getTarget() {
 	return target;
 }
 
-function getAnimalList() {
-	let animals = [];
+function getAnimalNames() {
+	let animalNames = [];
 	animal.forEach(a => {
 		temp = a.name;
-		animals.push(temp);
+		animalNames.push(temp);
 	})
-	return animals;
+	return animalNames;
 }
 
 function displayTarget() {
@@ -206,6 +214,8 @@ function displayTraits(e) {
 		<li><h2>Class</h2><p>${animal[idx].taxonomy.class}</p></li>
 		<li><h2>Order</h2><p>${animal[idx].taxonomy.order}</p></li>
 		<li><h2>Family</h2><p>${animal[idx].taxonomy.family}</p></li>
+		<li><h2>Habitat</h2><p>${animal[idx].habitat}</p></li>
+		
 	`;
 	animalTraits.innerHTML = modalTraitsElement;
 	modalTraits.classList.add('modal__notice');
@@ -215,6 +225,16 @@ function displayTraits(e) {
 function closeTraits() {
 	modalTraits.classList.remove('modal__notice');
 }
+
+function getAllAnimals() {
+	fetch ('animals.json', {credentials: 'same-origin'})
+	.then (response => response.json())
+	.then (data => animal = data)
+	.catch (err => {
+		alert('Summit is not right with json')
+	})
+}
+
 
 
 keyboardKeys.forEach(key => key.addEventListener('click', getGuess));
